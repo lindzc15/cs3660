@@ -4,12 +4,12 @@ import About from "./pages/About";
 
 
 
+
 function Home() {
   return (
-    <div>
+    <MainLayout>
       <h1>Home</h1>
-      <p>Welcome to my home page!</p>
-    </div>
+    </MainLayout>
   )
 }
 
