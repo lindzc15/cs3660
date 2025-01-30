@@ -1,7 +1,7 @@
 import './App.css'
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom'
 import About from "./pages/About";
-
+import MainLayout from "./layouts/MainLayout";
 
 
 
@@ -32,7 +32,6 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -43,18 +42,7 @@ function App() {
   );
 }
 
-function NavBar() {
-  return (
-    <nav>
-      <button>
-        <Link to="/">Home</Link>
-      </button>
-      <button>
-        <Link to="/about">About</Link>
-      </button>
-    </nav>
-  );
-}
+
 
 
 export default App
