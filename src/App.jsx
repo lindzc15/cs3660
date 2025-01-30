@@ -1,29 +1,19 @@
 import './App.css'
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom'
+import About from "./pages/About";
+
 
 
 
 function Home() {
   return (
-    <div>
+    <MainLayout>
       <h1>Home</h1>
-      <p>Welcome to my home page!</p>
-    </div>
+    </MainLayout>
   )
 }
 
-function About() {
-  return (
-    <div>
-      <h1>About</h1>
-      <p>Welcome to my CS3660 project. I am going to create a web
-        application dedicated to all things knit/crochet. Users will
-        be able to buy, sell, and trade patterns and yarn with other users.
-        It will also serve as a place for users to post tutorial videos.
-      </p>
-    </div>
-  )
-}
+
 
 function NotFound() {
   return (
