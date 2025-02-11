@@ -1,31 +1,12 @@
-import './App.css'
-import { BrowserRouter, Route, Routes, Link } from 'react-router-dom'
-import About from "./pages/About";
-import MainLayout from "./layouts/MainLayout";
-
-
-
-function Home() {
-  return (
-    <MainLayout>
-      <h1>Home</h1>
-    </MainLayout>
-  )
-}
-
-
-
-function NotFound() {
-  return (
-    <div>
-      <h1>Not Found</h1>
-      <p>Something super terrible has happened and the page you
-        are looking for doesn't even exist{":("}
-      </p>
-    </div>
-  )
-}
-
+import './App.css';
+import { BrowserRouter, Route, Routes, Link } from 'react-router-dom';
+import Yarn from "./pages/Yarn";
+import Home from "./pages/Home";
+import Patterns from "./pages/Patterns";
+import Tutorials from "./pages/Tutorials";
+import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
+import VideoTutorial from './pages/VideoTutorial';
 
 
 function App() {
@@ -34,7 +15,11 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
+          <Route path="/yarn" element={<Yarn />} />
+          <Route path="/patterns" element={<Patterns />} />
+          <Route path="/tutorials" element={<Tutorials />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/videotutorial" element={<VideoTutorial />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
