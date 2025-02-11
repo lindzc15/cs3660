@@ -1,56 +1,74 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
 
-  color-scheme: light dark;
-  background-color: #F0F0F0;
-
-}
-
-nav {
-  display: flex;
-  flex-direction: row;
-  place-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
+html,
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  color: black;
+  background-color: var(--gen-background);
+  font-family: 'Nunito', sans-serif;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-  color: #3E3850;
+:root {
+  --button-background: #32235E;
+  --header-text: #32235E;
+  --button-txt: #D7D7FA;
+  --gen-background: #F8F4FA;
+
+  --secondary-background: #A9A9DB;
+  --secondary-txt: #3B258A;
+
 }
 
-p {
-  color: #6E6A7A;
+.classicButton {
+  background-color: var(--button-background) !important;
+  color: var(--button-txt) !important;
+  border-color: var(--button-background) !important;
 }
 
-button {
-  border-radius: 8px;
-  margin: 0px;
-  border: 1px solid transparent;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: border-color 0.25s;
-  color: #917CCF;
+.navbar,
+.navText {
+  background-color: var(--secondary-background);
+  color: var(--secondary-txt);
 }
 
-button:hover {
-  border: solid 3px #887EA5;
-  font-weight: bold;
+.brand-name {
+  font-family: 'Pacifico', cursive;
 }
 
-a {
-  text-decoration: none;
+.navbar-brand {
+  font-size: 1.5em;
+}
+
+h1,
+h2,
+h5 {
+  color: var(--header-text);
+}
+
+.searchPage {
+  text-align: right;
+}
+
+.card-header {
+  background-color: var(--secondary-background);
+  color: var(--secondary-txt);
+  text-align: left;
+  width: 100;
+}
+
+.list-group {
+  text-align: left;
+}
+
+.backButton {
+  width: 8%;
+}
+
+.profileCard {
+  background-color: var(--button-background);
+  color: var(--button-txt);
 }

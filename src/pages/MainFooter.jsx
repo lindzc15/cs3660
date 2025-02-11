@@ -2,8 +2,8 @@ import React from "react";
 
 const MainFooter = () => {
     return (
-        <footer>
-            <p>&copy; {new Date().getFullYear()} My Website</p>
+        <footer className="text-center">
+            <p>&copy; {new Date().getFullYear()}<span className='brand-name ms-2'>Loops & Knots</span></p>
         </footer>
     );
 };
