@@ -11,6 +11,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
 
     //fetch yarn data from api on mount
     useEffect(() => {
+        //start with fetching all yarns
         const fetchYarns = async () => {
             try {
                 const response = await fetch("https://api.ravelry.com/yarns/search.json", {
@@ -19,6 +20,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
                         "Authorization": "Basic " + btoa(username + ":" + password)
                     }
                 })
+                //fetch detailed object for all yarns, searched for by id
                 if (!response.ok) throw new Error("Failed to fetch yarns");
                 const data = await response.json();
                 const yarnIDs = data.yarns.map(yarn => yarn.id);
@@ -68,13 +70,16 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
 
     //remove yarns that don't match filters selected
     if (filtering) {
+        //make copy of yarns and figure out which filters were checked 
         let yarnsDeepCopy = JSON.parse(JSON.stringify(yarns));
         let appliedWeightFiltersArr = [];
+        //add each checked filter to the list of applied filters
         Object.entries(appliedWeightFilters).forEach(([key, value]) => {
             if (value == true) {
                 appliedWeightFiltersArr.push(key.toLocaleLowerCase());
             }
         });
+        //if the weight of the yarn matches a weight filter set in the array, keep, otherwise delete
         Object.entries(yarnsDeepCopy).forEach(([key, value]) => {
             if (!appliedWeightFiltersArr.includes(value.yarn.yarn_weight.name.toLocaleLowerCase())) {
                 delete yarnsDeepCopy[key];
@@ -89,6 +94,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
             yarnsDisplayed = yarns;
         }
     }
+    //if not filtering, display all yarns
     else {
         yarnsDisplayed = yarns;
     }
@@ -97,6 +103,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
 
 
     return (
+        //card to display details of each yarn
         <div className="row ms-auto me-auto">
             {yarnsDisplayed.map((yarn) => (
                 <div className="col-md-4 col-lg-3 d-flex justify-content-center" key={yarn.yarn.id}>

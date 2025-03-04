@@ -90,6 +90,7 @@ h5 {
   font-weight: bold;
 }
 
+/* z index to put alert in front of product display */
 .custom-alert {
   z-index: 100;
   position: fixed;

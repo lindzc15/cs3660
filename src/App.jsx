@@ -11,19 +11,20 @@ import Profile from "./pages/Profile"
 import AuthRoute from './AuthRoute';
 
 
-const username = "read-30374bdbb4186ef30d28bc0f14b4e697";
-const password = "1qg8ZJMG6aCJL5mf64gfV6X7kKEzvSu3L+Dvc47t";
-const response = await fetch("https://api.ravelry.com/yarns/search.json", {
-  method: "GET",
-  headers: {
-    "Authorization": "Basic " + btoa(username + ":" + password)
-  }
-})
-if (!response.ok) throw new Error("Failed to fetch yarns");
-const data = await response.json();
+// helpful initial fetch for debugging purposes, *delete later*
+// const username = "read-30374bdbb4186ef30d28bc0f14b4e697";
+// const password = "1qg8ZJMG6aCJL5mf64gfV6X7kKEzvSu3L+Dvc47t";
+// const response = await fetch("https://api.ravelry.com/yarns/search.json", {
+//   method: "GET",
+//   headers: {
+//     "Authorization": "Basic " + btoa(username + ":" + password)
+//   }
+// })
+// if (!response.ok) throw new Error("Failed to fetch yarns");
+// const data = await response.json();
 
-const yarnIDs = data.yarns.map(yarn => yarn.id);
-console.log(yarnIDs);
+// const yarnIDs = data.yarns.map(yarn => yarn.id);
+// console.log(yarnIDs);
 
 const yarnDetails = await Promise.all(
   yarnIDs.map(async (id) => {

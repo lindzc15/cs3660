@@ -50,6 +50,7 @@ const Yarn = () => {
         }));
     };
 
+    //when remove filter clicked, set filtering to false so all yarns will be displayed
     const cancelFilters = (e) => {
         e.preventDefault();
         setFiltering(false);
@@ -82,11 +83,15 @@ const Yarn = () => {
                 </div>
             </div>
 
+
+            {/* shows filter applied alert when button is pressed */}
             {showAlert && (
                 <div className="alert custom-alert position-fixed bottom-0 start-50 translate-middle-x" role="alert">
                     Filters applied!
                 </div>
             )}
+
+
             {/* container for displaying the yarns */}
             <div className="container-fluid">
                 <RavelryAPIYarns appliedWeightFilters={appliedWeightFilters} filtering={filtering} />
@@ -95,6 +100,7 @@ const Yarn = () => {
 
 
             {/*Popup sidebar for setting search filters  */}
+            {/* Make this more dynamic when refactoring to shorten code */}
             <form onSubmit={applyFilters} className="offcanvas offcanvas-start"
                 tabIndex="-1" id="offcanvasFilters"
                 aria-labelledby="yarn-filters">
