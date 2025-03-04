@@ -45,6 +45,7 @@ body {
 
 h1,
 h2,
+h3,
 h5 {
   color: var(--header-text);
 }
@@ -71,4 +72,28 @@ h5 {
 .profileCard {
   background-color: var(--button-background);
   color: var(--button-txt);
+}
+
+.text-primary {
+  color: var(--button-background) !important;
+}
+
+
+.main-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.active {
+  color: var(--button-background) !important;
+  font-weight: bold;
+}
+
+.custom-alert {
+  z-index: 100;
+  position: fixed;
+  background-color: var(--button-background) !important;
+  color: var(--button-txt) !important;
+  opacity: 0.9;
 }

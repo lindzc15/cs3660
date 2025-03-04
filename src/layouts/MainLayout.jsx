@@ -10,9 +10,9 @@ const MainLayout = ({ children, title }) => {
         }
     }, [title]);
     return (
-        <div className="d-flex flex-column vh-100">
+        <div className="d-flex flex-column main-container">
             <MainNav />
-            <main className="d-flex flex-column flex-grow-1 justify-content-start">
+            <main className="d-flex flex-column flex-grow-1">
                 {children}
             </main>
             <MainFooter />

@@ -1,17 +1,6 @@
 import React from "react";
 import MainLayout from "../layouts/MainLayout";
-
-const PATTERN_IMAGES = {
-    pattern1: "https://raw.githubusercontent.com/lindzc15/3660-project-images/main/pattern1.jpg",
-    pattern2: "https://raw.githubusercontent.com/lindzc15/3660-project-images/main/pattern2.jpg",
-    pattern3: "https://raw.githubusercontent.com/lindzc15/3660-project-images/main/pattern3.jpg",
-    pattern4: "https://raw.githubusercontent.com/lindzc15/3660-project-images/main/pattern4.jpg",
-    pattern5: "https://raw.githubusercontent.com/lindzc15/3660-project-images/main/pattern5.jpg",
-    pattern6: "https://raw.githubusercontent.com/lindzc15/3660-project-images/main/pattern6.jpg",
-    pattern7: "https://raw.githubusercontent.com/lindzc15/3660-project-images/main/pattern7.jpg",
-};
-
-
+import RavelryAPIPatterns from "../pages/ravelryAPI/ravelryAPIPatterns";
 
 const SetFilterBttn = () => {
     const applyFilters = () => {
@@ -46,16 +35,7 @@ const Patterns = () => {
 
             {/* container for displaying the yarns */}
             <div className="container-fluid">
-                <div className="row">
-                    {Object.keys(PATTERN_IMAGES).map((key) => (
-                        <div className="card m-4" style={{ width: '20rem', cursor: "pointer" }} key={key}>
-                            <img src={PATTERN_IMAGES[key]} className="card-img-top mt-2" alt={key} />
-                            <div className="card-body">
-                                <p className="card-text">{`${key} description or details here.`}</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+                <RavelryAPIPatterns />
             </div>
 
 

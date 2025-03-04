@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 
 const BRAND_IMAGES = {
@@ -9,12 +9,11 @@ const BRAND_IMAGES = {
 const MainNav = () => {
     return (
         <nav className="navbar navbar-expand-lg sticky-top">
-            {/* for the love of god don't change container-fluid */}
             <div className="container-fluid">
-                <Link className="navbar-brand" to="/">
+                <NavLink className="navbar-brand" to="/">
                     <img src={BRAND_IMAGES.mainlogo} alt="logo" width="80" height="60"></img>
-                    <span className="ms-2 navText brand-name">Loops & Knots</span>
-                </Link>
+                    <span className="ms-2 navText brand-name fw-normal">Loops & Knots</span>
+                </NavLink>
                 <button
                     className="navbar-toggler"
                     type="button"
@@ -28,19 +27,19 @@ const MainNav = () => {
                 <div className="collapse navbar-collapse text-center" id="navbarNav">
                     <ul className="navbar-nav">
                         <li className="nav-item">
-                            <Link className="nav-link navText" to="/">Home</Link>
+                            <NavLink className="nav-link navText" to="/">Home</NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link navText" to="/yarn">Yarn</Link>
+                            <NavLink className="nav-link navText" to="/yarn">Yarn</NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link navText" to="/patterns">Patterns</Link>
+                            <NavLink className="nav-link navText" to="/patterns">Patterns</NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link navText" to="/tutorials">Tutorials</Link>
+                            <NavLink className="nav-link navText" to="/tutorials">Tutorials</NavLink>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link navText" to="/login">My Profile</Link>
+                            <NavLink className="nav-link navText" to="/profile">My Profile</NavLink>
                         </li>
 
                     </ul>

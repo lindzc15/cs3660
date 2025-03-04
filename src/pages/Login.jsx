@@ -1,111 +1,79 @@
-import React, { useState } from "react";
+import { useState, useContext, useEffect } from "react";
+import { AuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 
-const EasyButton = ({ setLoggedIn }) => {
-    return (
-        <button onClick={() => setLoggedIn(true)} className="btn btn-primary mt-3 classicButton">
-            Log in
-        </button>
-    );
-};
+function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
+    const { isLoggedIn, login } = useContext(AuthContext);
+    const navigate = useNavigate();
 
-const Profile = ({ userName }) => {
-    // Default userName to "User" if it's empty
-    const displayName = userName || "User";
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate("/profile");
+        }
+    }, [isLoggedIn, navigate]);
 
-    return (
-        <div className="container-fluid d-flex flex-column flex-grow-1 justify-content-center align-items-center mt-3">
-            <h2>Welcome back, {displayName}!</h2>
-            <div className="row w-100">
-                <div className="col-3 d-flex justify-content-center">
-                    <div class="card profileCard m-3" style={{ width: '20rem', cursor: "pointer" }}>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Account Info</h5>
-                            <p class="card-text">This would allow user to edit profile/account</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-3 d-flex justify-content-center">
-                    <div class="card profileCard m-3" style={{ width: '20rem', cursor: "pointer" }}>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Favorites</h5>
-                            <p class="card-text">View favorite patterns/yarns/tutorials</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-3 d-flex justify-content-center">
-                    <div class="card profileCard m-3" style={{ width: '20rem', cursor: "pointer" }}>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">Orders</h5>
-                            <p class="card-text">Track orders and see order history</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-3 d-flex justify-content-center">
-                    <div class="card profileCard m-3" style={{ width: '20rem', cursor: "pointer" }}>
-                        <div class="card-body">
-                            <h5 class="card-title fw-bold">My Listings</h5>
-                            <p class="card-text">Let user see the yarn/patterns they have for sale</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        if (!email || !password) {
+            setError("both fields are required");
+            return;
+        }
+
+        if (login(email, password)) {
+            navigate("/profile");
+        }
+        else {
+            setError("Invalid email and password");
+        }
 
 
-const EnterLogin = ({ setUserName, setLoggedIn }) => {
-    return (
-        <div className="container d-flex flex-column flex-grow-1 justify-content-center">
-            <div className="row">
-                <div className="col-4 offset-4 text-center">
-                    <div id="login-stuff">
-                        <h2 className="mb-3">Log in</h2>
-                        <div className="form-floating mb-3">
-                            <input
-                                onChange={(e) => setUserName(e.target.value)}
-                                type="email"
-                                className="form-control"
-                                id="floatingInput"
-                                placeholder="name@example.com"
-                            />
-                            <label htmlFor="floatingInput">Username</label>
-                        </div>
-                        <div className="form-floating">
-                            <input
-                                type="password"
-                                className="form-control"
-                                id="floatingPassword"
-                                placeholder="Password"
-                            />
-                            <label htmlFor="floatingPassword">Password</label>
-                        </div>
-                        <EasyButton setLoggedIn={setLoggedIn} />
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const Login = () => {
-    const [loggedIn, setLoggedIn] = useState(false);
-    const [userName, setUserName] = useState('');
+    }
 
     return (
-        <MainLayout title="Login">
+        <MainLayout title="Login | Loops & Knots">
             <div className="container d-flex flex-column flex-grow-1 justify-content-center">
-                {loggedIn ? (
-                    <Profile userName={userName} />
-                ) : (
-                    <EnterLogin setUserName={setUserName} setLoggedIn={setLoggedIn} />
-                )}
+                <div className="row">
+                    <div className="col-4 offset-4 text-center">
+                        <h3 className="text-center mb-4">Login</h3>
+                        {/* if error true, shows code on right side */}
+                        {error && <div className="alert alert-danger">{error}</div>}
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3 form-floating">
+                                <input
+                                    type="email"
+                                    className="form-control"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    id="floatingEmail"
+                                    placeholder=""
+                                />
+                                <label className="form-label" htmlFor="floatingEmail">Email Address</label>
+                            </div>
+                            <div className="mb-3 form-floating">
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    id="floatingPassword"
+                                    placeholder=""
+                                />
+                                <label className="form-label" htmlFor="floatingPassword">Password</label>
+                            </div>
+                            <button type="submit" className="btn btn-primary mt-3 classicButton">
+                                Log in
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </MainLayout>
-    );
-};
+    )
+}
 
-export default Login;
-
-
+export default Login
