@@ -11,35 +11,36 @@ import Profile from "./pages/Profile"
 import AuthRoute from './AuthRoute';
 
 
-// helpful initial fetch for debugging purposes, *delete later*
+// helpful initial fetch for debugging purposes, * delete later *
 // const username = "read-30374bdbb4186ef30d28bc0f14b4e697";
 // const password = "1qg8ZJMG6aCJL5mf64gfV6X7kKEzvSu3L+Dvc47t";
-// const response = await fetch("https://api.ravelry.com/yarns/search.json", {
+// const response = await fetch("https://api.ravelry.com/patterns/search.json", {
 //   method: "GET",
 //   headers: {
 //     "Authorization": "Basic " + btoa(username + ":" + password)
 //   }
 // })
-// if (!response.ok) throw new Error("Failed to fetch yarns");
+// if (!response.ok) throw new Error("Failed to fetch patterns");
 // const data = await response.json();
 
-// const yarnIDs = data.yarns.map(yarn => yarn.id);
-// console.log(yarnIDs);
+// console.log(data);
+// const patternIDs = data.patterns.map(pattern => pattern.id);
+// console.log(patternIDs);
 
-const yarnDetails = await Promise.all(
-  yarnIDs.map(async (id) => {
-    const yarnDetailsResponse = await fetch(`https://api.ravelry.com/yarns/${id}.json`, {
-      method: "GET",
-      headers: {
-        "Authorization": "Basic " + btoa(username + ":" + password)
-      },
-    });
-    if (!yarnDetailsResponse.ok) throw new Error("Failed to fetch yarns");
-    return await yarnDetailsResponse.json();
-  }
-  )
-)
-console.log(yarnDetails);
+// const patternDetails = await Promise.all(
+//   patternIDs.map(async (id) => {
+//     const patternDetailsResponse = await fetch(`https://api.ravelry.com/patterns/${id}.json`, {
+//       method: "GET",
+//       headers: {
+//         "Authorization": "Basic " + btoa(username + ":" + password)
+//       },
+//     });
+//     if (!patternDetailsResponse.ok) throw new Error("Failed to fetch yarns");
+//     return await patternDetailsResponse.json();
+//   }
+//   )
+// )
+// console.log(patternDetails);
 
 
 function App() {

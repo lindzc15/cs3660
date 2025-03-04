@@ -99,7 +99,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
         yarnsDisplayed = yarns;
     }
 
-
+    console.log(yarns);
 
 
     return (
@@ -109,12 +109,21 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
                 <div className="col-md-4 col-lg-3 d-flex justify-content-center" key={yarn.yarn.id}>
                     <div className="card m-3 flex-grow-1" onClick={() => window.open(`${yarn.yarn.yarn_company.url}`, "_blank")} style={{ cursor: "pointer" }}>
                         <div className="card-img-wrapper" style={{ height: '60%' }}>
-                            <img
-                                src={yarn.yarn.photos[0].medium_url}
-                                className="card-img-top"
-                                alt={yarn.name}
-                                style={{ objectFit: 'cover', height: '100%' }}
-                            />
+                            {yarn.yarn.photos ? (
+                                <img
+                                    src={yarn.yarn.photos[0].medium_url}
+                                    className="card-img-top"
+                                    alt={yarn.yarn.name}
+                                    style={{ objectFit: 'cover', height: '100%' }}
+                                />
+                            ) : (
+                                <img
+                                    src="path/to/default-image.jpg"
+                                    className="card-img-top"
+                                    alt="No image available"
+                                    style={{ objectFit: 'cover', height: '100%' }}
+                                />
+                            )}
                         </div>
                         <div className="card-body">
                             <h5 className="card-title fw-bold">{`${yarn.yarn.name}`}</h5>
@@ -132,3 +141,4 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
 }
 
 export default RavelryAPIYarns;
+

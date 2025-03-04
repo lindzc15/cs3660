@@ -20,13 +20,20 @@ const Patterns = () => {
             <div className="container-fluid searchPage">
                 <div className="row">
                     <div className="col-2 m-3">
-                        <button className="btn btn-primary classicButton" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasFilters" aria-controls="yarn-filters">
-                            Add filters
-                        </button>
+
                     </div>
                     <div className="col-8 m-3">
                         <form className="form-inline">
                             <input className="form-control" type="search" placeholder="Search" aria-label="Search" />
+                            <button className="btn btn-outline-success classicButton m-3">
+                                <i className="fa-solid fa-xmark"></i>  Remove Filters</button>
+                            <button className="btn btn-primary classicButton"
+                                type="button"
+                                data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasFilters"
+                                aria-controls="yarn-filters">
+                                <i className="fa-solid fa-plus"></i> Add filters
+                            </button>
                             <button className="btn btn-outline-success classicButton m-3" type="submit">Search</button>
                         </form>
                     </div>
