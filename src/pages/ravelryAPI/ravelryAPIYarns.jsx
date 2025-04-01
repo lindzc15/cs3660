@@ -8,13 +8,19 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // const response = await fetch("http://127.0.0.1:8080/api/ravelry/yarns", {
+    //     // Adding headers to the request
+    //     headers: {
+    //         "Content-type": "application/json; charset=UTF-8",
+    //     }
+    // })
 
     //fetch yarn data from api on mount
     useEffect(() => {
         //start with fetching all yarns
         const fetchYarns = async () => {
             try {
-                const response = await fetch("https://api.ravelry.com/yarns/search.json", {
+                const response = await fetch("https://api.ravelry.com/yarns/search.json?page_size=48", {
                     method: "GET",
                     headers: {
                         "Authorization": "Basic " + btoa(username + ":" + password)
@@ -23,6 +29,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
                 //fetch detailed object for all yarns, searched for by id
                 if (!response.ok) throw new Error("Failed to fetch yarns");
                 const data = await response.json();
+                console.log("data", data);
                 const yarnIDs = data.yarns.map(yarn => yarn.id);
                 const yarnDetails = await Promise.all(
                     yarnIDs.map(async (id) => {
@@ -38,6 +45,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
                     )
                 )
                 setYarns(yarnDetails);
+                console.log("details", yarnDetails);
             }
             catch (err) {
                 setError(err.message);
@@ -49,6 +57,8 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
 
         fetchYarns();
     }, []);
+
+
 
     //show loading spinner
     if (loading) {
@@ -109,28 +119,29 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
                 <div className="col-md-4 col-lg-3 d-flex justify-content-center" key={yarn.yarn.id}>
                     <div className="card m-3 flex-grow-1" onClick={() => window.open(`${yarn.yarn.yarn_company.url}`, "_blank")} style={{ cursor: "pointer" }}>
                         <div className="card-img-wrapper" style={{ height: '60%' }}>
-                            {yarn.yarn.photos ? (
+                            {yarn.yarn?.photos?.[0]?.medium_url ? (
                                 <img
                                     src={yarn.yarn.photos[0].medium_url}
                                     className="card-img-top"
-                                    alt={yarn.yarn.name}
+                                    alt={yarn.yarn.name ? yarn.yarn.name : "Unnamed yarn"}
                                     style={{ objectFit: 'cover', height: '100%' }}
                                 />
                             ) : (
                                 <img
-                                    src="path/to/default-image.jpg"
+                                    src="/noBackgroundLogo.png"
                                     className="card-img-top"
                                     alt="No image available"
                                     style={{ objectFit: 'cover', height: '100%' }}
                                 />
                             )}
+
                         </div>
                         <div className="card-body">
-                            <h5 className="card-title fw-bold">{`${yarn.yarn.name}`}</h5>
-                            <p className="card-text"><small className="text-body-secondary">{`${yarn.yarn.yarn_company.name}`}</small></p>
-                            <p className="card-text">{`Weight: ${yarn.yarn.yarn_weight.name}`}</p>
+                            <h5 className="card-title fw-bold">{`${yarn.yarn.name ? yarn.yarn.name : "Unnamed yarn"}`}</h5>
+                            <p className="card-text"><small className="text-body-secondary">{`${yarn.yarn.yarn_company.name ? yarn.yarn.yarn_company.name : "No named company"}`}</small></p>
+                            <p className="card-text">{`Weight: ${yarn.yarn.yarn_weight?.name || "Unknown"}`}</p>
                             {yarn.yarn.yarn_fibers.map((aFiber) => (
-                                <p className="card-text" key={aFiber.id}>{`${aFiber.percentage}% ${aFiber.fiber_type.name}`}</p>
+                                <p className="card-text" key={aFiber.id}>{`${aFiber.percentage}% ${aFiber.fiber_type.name ? aFiber.fiber_type.name : "Unkown fiber type"}`}</p>
                             ))}
                         </div>
                     </div>

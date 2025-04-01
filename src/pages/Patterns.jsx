@@ -20,7 +20,6 @@ const Patterns = () => {
             <div className="container-fluid searchPage">
                 <div className="row">
                     <div className="col-2 m-3">
-
                     </div>
                     <div className="col-8 m-3">
                         <form className="form-inline">

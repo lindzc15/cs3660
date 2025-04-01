@@ -9,12 +9,13 @@ import NotFound from "./pages/NotFound";
 import VideoTutorial from './pages/VideoTutorial';
 import Profile from "./pages/Profile"
 import AuthRoute from './AuthRoute';
+import CreateAccount from './pages/CreateAccount';
 
 
 // helpful initial fetch for debugging purposes, * delete later *
 // const username = "read-30374bdbb4186ef30d28bc0f14b4e697";
 // const password = "1qg8ZJMG6aCJL5mf64gfV6X7kKEzvSu3L+Dvc47t";
-// const response = await fetch("https://api.ravelry.com/patterns/search.json", {
+// const response = await fetch("https://api.ravelry.com/yarns/search.json", {
 //   method: "GET",
 //   headers: {
 //     "Authorization": "Basic " + btoa(username + ":" + password)
@@ -29,7 +30,7 @@ import AuthRoute from './AuthRoute';
 
 // const patternDetails = await Promise.all(
 //   patternIDs.map(async (id) => {
-//     const patternDetailsResponse = await fetch(`https://api.ravelry.com/patterns/${id}.json`, {
+//     const patternDetailsResponse = await fetch(`https://api.ravelry.com/yarns/${id}.json`, {
 //       method: "GET",
 //       headers: {
 //         "Authorization": "Basic " + btoa(username + ":" + password)
@@ -53,6 +54,7 @@ function App() {
           <Route path="/patterns" element={<Patterns />} />
           <Route path="/tutorials" element={<Tutorials />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/createAccount" element={<CreateAccount />} />
           <Route path="/videotutorial" element={<VideoTutorial />} />
           <Route element={<AuthRoute />}>
             <Route path="/profile" element={<Profile />}></Route>

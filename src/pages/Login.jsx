@@ -16,15 +16,16 @@ function Login() {
         }
     }, [isLoggedIn, navigate]);
 
-    const handleSubmit = (e) => {
+    async function handleSubmit(e) {
         e.preventDefault();
+        const loginSuccess = await login(email, password);
 
         if (!email || !password) {
             setError("both fields are required");
             return;
         }
 
-        if (login(email, password)) {
+        if (loginSuccess) {
             navigate("/profile");
         }
         else {
@@ -37,13 +38,13 @@ function Login() {
     return (
         <MainLayout title="Login | Loops & Knots">
             <div className="container d-flex flex-column flex-grow-1 justify-content-center">
-                <div className="row">
-                    <div className="col-4 offset-4 text-center">
+                <div className="row ms-auto me-auto w-25 mt-4 mb-4">
+                    <div className="text-center">
                         <h3 className="text-center mb-4">Login</h3>
                         {/* if error true, shows code on right side */}
                         {error && <div className="alert alert-danger">{error}</div>}
                         <form onSubmit={handleSubmit}>
-                            <div className="mb-3 form-floating">
+                            <div className="col-md-12 col-lg-12 mb-3 form-floating">
                                 <input
                                     type="email"
                                     className="form-control"
@@ -54,7 +55,7 @@ function Login() {
                                 />
                                 <label className="form-label" htmlFor="floatingEmail">Email Address</label>
                             </div>
-                            <div className="mb-3 form-floating">
+                            <div className="col-md-12 col-lg-12 mb-3 form-floating">
                                 <input
                                     type="password"
                                     className="form-control"
@@ -65,6 +66,7 @@ function Login() {
                                 />
                                 <label className="form-label" htmlFor="floatingPassword">Password</label>
                             </div>
+                            <p className="text-primary">New User? <a href="./createAccount">Create account</a></p>
                             <button type="submit" className="btn btn-primary mt-3 classicButton">
                                 Log in
                             </button>

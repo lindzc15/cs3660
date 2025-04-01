@@ -29,6 +29,16 @@ body {
   border-color: var(--button-background) !important;
 }
 
+.secondaryButton {
+  background-color: white !important;
+  color: var(--button-background) !important;
+  border-color: var(--button-background) !important;
+}
+
+.secondaryButton:hover {
+  background-color: var(--button-txt) !important;
+}
+
 .navbar,
 .navText {
   background-color: var(--secondary-background);
@@ -93,8 +103,12 @@ h5 {
 /* z index to put alert in front of product display */
 .custom-alert {
   z-index: 100;
-  position: fixed;
   background-color: var(--button-background) !important;
   color: var(--button-txt) !important;
   opacity: 0.9;
+}
+
+li,
+a {
+  color: var(--secondary-txt) !important;
 }

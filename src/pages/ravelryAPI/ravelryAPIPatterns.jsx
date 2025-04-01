@@ -64,10 +64,9 @@ const RavelryAPIPatterns = () => {
                                 />
                             ) : (
                                 <img
-                                    src="path/to/default-image.jpg"
-                                    className="card-img-top"
+                                    src="../public/noBackgroundLogo.png"
+                                    className="card-img-top align-text-center align-items-center mt-5"
                                     alt="No image available"
-                                    style={{ objectFit: 'cover', height: '100%' }}
                                 />
                             )}
                         </div>

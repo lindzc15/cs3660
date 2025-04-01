@@ -1,17 +1,12 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-
-const BRAND_IMAGES = {
-    mainlogo: "https://raw.githubusercontent.com/lindzc15/3660-project-images/main/logo.png"
-}
-
 const MainNav = () => {
     return (
         <nav className="navbar navbar-expand-lg sticky-top">
             <div className="container-fluid">
                 <NavLink className="navbar-brand" to="/">
-                    <img src={BRAND_IMAGES.mainlogo} alt="logo" width="80" height="60"></img>
+                    <img src="../../public/noBackgroundLogo.png" alt="logo" width="80" height="60"></img>
                     <span className="ms-2 navText brand-name fw-normal">Loops & Knots</span>
                 </NavLink>
                 <button
