@@ -3,7 +3,7 @@ const username = "read-30374bdbb4186ef30d28bc0f14b4e697";
 const password = "1qg8ZJMG6aCJL5mf64gfV6X7kKEzvSu3L+Dvc47t";
 
 
-const RavelryAPIPatterns = () => {
+const RavelryAPIPatterns = ({ appliedFilters, filtering }) => {
     const [patterns, setPatterns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -11,14 +11,13 @@ const RavelryAPIPatterns = () => {
     useEffect(() => {
         const fetchPatterns = async () => {
             try {
-                const response = await fetch("https://api.ravelry.com/patterns/search.json", {
+                console.log(filtering);
+                const response = await fetch("http://127.0.0.1:8080/api/ravelry/patterns", {
                     method: "GET",
-                    headers: {
-                        "Authorization": "Basic " + btoa(username + ":" + password)
-                    }
                 })
                 if (!response.ok) throw new Error("Failed to fetch patterns");
                 const data = await response.json();
+                console.log(data);
                 setPatterns(data.patterns);
             }
             catch (err) {
@@ -30,7 +29,7 @@ const RavelryAPIPatterns = () => {
         }
 
         fetchPatterns();
-    }, []);
+    }, [filtering, appliedFilters]);
 
     if (loading) {
         return (
@@ -46,6 +45,8 @@ const RavelryAPIPatterns = () => {
     if (error) {
         return <div className="alert alert-danger">Error: {error}</div>;
     }
+
+
 
 
     return (

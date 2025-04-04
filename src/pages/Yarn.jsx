@@ -97,29 +97,6 @@ const Yarn = () => {
                 <RavelryAPIYarns appliedWeightFilters={appliedWeightFilters} filtering={filtering} />
             </div>
 
-            {/* to maybe add pages later */}
-            {/* 
-            <nav aria-label="Page navigation example">
-                <ul className="pagination ms-auto me-auto justify-content-center">
-                    <li className="page-item">
-                        <a className="page-link" href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                            <span className="sr-only">Previous</span>
-                        </a>
-                    </li>
-                    <li className="page-item"><a className="page-link" href="#">1</a></li>
-                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                    <li className="page-item">
-                        <a className="page-link" href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            <span className="sr-only">Next</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav> */}
-
-
 
             {/*Popup sidebar for setting search filters  */}
             {/* Make this more dynamic when refactoring to shorten code */}
@@ -304,70 +281,6 @@ const Yarn = () => {
                                                 id="weight0" />
                                             <label className="form-check-label" htmlFor="weight0">
                                                 Jumbo (#7)
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Accordian with checkboxes for yarn type */}
-                            <div className="accordion-item">
-                                <h2 className="accordion-header">
-                                    <button
-                                        className="accordion-button collapsed"
-                                        type="button"
-                                        data-bs-toggle="collapse"
-                                        data-bs-target="#yarnType"
-                                        aria-expanded="false"
-                                        aria-controls="yarnType">
-                                        Type
-                                    </button>
-                                </h2>
-                                <div
-                                    id="yarnType"
-                                    className="accordion-collapse collapse"
-                                    aria-labelledby="yarnType"
-                                    data-bs-parent="#filters">
-                                    <div className="accordion-body">
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="typeAcr" />
-                                            <label className="form-check-label" htmlFor="typeAcr">
-                                                Acrylic
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="typeC" />
-                                            <label className="form-check-label" htmlFor="typeC">
-                                                Cotton
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="typeW" />
-                                            <label className="form-check-label" htmlFor="typeW">
-                                                Wool
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="typeS" />
-                                            <label className="form-check-label" htmlFor="typeS">
-                                                Silk
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="typeAlp" />
-                                            <label className="form-check-label" htmlFor="typeAlp">
-                                                Alpaca
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="typePoly" />
-                                            <label className="form-check-label" htmlFor="typePoly">
-                                                Polyester
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="typeBlnd" />
-                                            <label className="form-check-label" htmlFor="typeBlnd">
-                                                Blended
                                             </label>
                                         </div>
                                     </div>

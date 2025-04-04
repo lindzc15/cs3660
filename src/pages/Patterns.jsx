@@ -1,19 +1,51 @@
 import React from "react";
 import MainLayout from "../layouts/MainLayout";
+import { useState, useContext, useEffect } from "react";
 import RavelryAPIPatterns from "../pages/ravelryAPI/ravelryAPIPatterns";
 
-const SetFilterBttn = () => {
-    const applyFilters = () => {
-        alert("Filters applied!");
-    }
-    return (
-        <button onClick={() => applyFilters()} className="btn btn-primary m-3 classicButton" data-bs-dismiss="offcanvas">
-            Apply Filters
-        </button>
-    );
-};
 
 const Patterns = () => {
+    //tracks state of checked filter checkboxes
+    const [selectedFilters, setSelectedFilters] = useState({
+        knit: false,
+        crochet: false
+    });
+
+    //tracks whether user is trying to filter
+    const [filtering, setFiltering] = useState(false);
+    const [appliedFilters, setAppliedFilters] = useState({});
+
+    //tracks whether filters applied alert is showing
+    const [showAlert, setShowAlert] = useState(false);
+
+    //change state of applied filters
+    const applyFilters = (e) => {
+        e.preventDefault();
+        setFiltering(true);
+        setAppliedFilters(selectedFilters);
+        setShowAlert(true);
+        setTimeout(() => {
+            setShowAlert(false);
+        }, 1500);
+    }
+
+    //track changes in filter checkboxes, preparing them to be sent to parent component
+    const handleCheckboxChange = (e) => {
+        const { name, checked } = e.target;
+        setSelectedFilters(prevState => ({
+            ...prevState,
+            [name]: checked,
+        }));
+    };
+
+
+    //when remove filter clicked, set filtering to false so all yarns will be displayed
+    const cancelFilters = (e) => {
+        e.preventDefault();
+        setFiltering(false);
+        setSelectedFilters({ knit: false, crochet: false });
+        setAppliedFilters({});
+    };
     return (
         <MainLayout title="Patterns">
             {/* holds the search bar and apply filters button */}
@@ -24,13 +56,13 @@ const Patterns = () => {
                     <div className="col-8 m-3">
                         <form className="form-inline">
                             <input className="form-control" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success classicButton m-3">
+                            <button className="btn btn-outline-success classicButton m-3" onClick={cancelFilters}>
                                 <i className="fa-solid fa-xmark"></i>  Remove Filters</button>
                             <button className="btn btn-primary classicButton"
                                 type="button"
                                 data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasFilters"
-                                aria-controls="yarn-filters">
+                                aria-controls="pattern-filters">
                                 <i className="fa-solid fa-plus"></i> Add filters
                             </button>
                             <button className="btn btn-outline-success classicButton m-3" type="submit">Search</button>
@@ -39,16 +71,23 @@ const Patterns = () => {
                 </div>
             </div>
 
-            {/* container for displaying the yarns */}
+            {/* shows filter applied alert when button is pressed */}
+            {showAlert && (
+                <div className="alert custom-alert position-fixed bottom-0 start-50 translate-middle-x" role="alert">
+                    Filters applied!
+                </div>
+            )}
+
+            {/* container for displaying the patterns */}
             <div className="container-fluid">
-                <RavelryAPIPatterns />
+                <RavelryAPIPatterns appliedWeightFilters={appliedFilters} filtering={filtering} />
             </div>
 
 
             {/*Popup sidebar for setting search filters  */}
-            <div className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasFilters" aria-labelledby="yarn-filters">
+            <form onSubmit={applyFilters} className="offcanvas offcanvas-start" tabIndex="-1" id="offcanvasFilters" aria-labelledby="pattern-filters">
                 <div className="offcanvas-header">
-                    <h5 className="offcanvas-title" id="yarn-filters">Filters</h5>
+                    <h5 className="offcanvas-title" id="pattern-filters">Filters</h5>
                     <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
                 <div className="offcanvas-body">
@@ -64,99 +103,27 @@ const Patterns = () => {
                                 <div id="patternType" className="accordion-collapse collapse" aria-labelledby="patternType" data-bs-parent="#filters">
                                     <div className="accordion-body">
                                         <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="crochet" />
+                                            <input className="form-check-input"
+                                                name="crochet"
+                                                type="checkbox"
+                                                value=""
+                                                id="crochet"
+                                                checked={selectedFilters.crochet}
+                                                onChange={handleCheckboxChange} />
                                             <label className="form-check-label" htmlFor="crochet">
                                                 Crochet
                                             </label>
                                         </div>
                                         <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="Knit" />
+                                            <input className="form-check-input"
+                                                name="knit"
+                                                type="checkbox"
+                                                value=""
+                                                id="Knit"
+                                                checked={selectedFilters.knit}
+                                                onChange={handleCheckboxChange} />
                                             <label className="form-check-label" htmlFor="Knit">
                                                 Knit
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Accordian with checkboxes for product type */}
-                            <div className="accordion-item">
-                                <h2 className="accordion-header">
-                                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#productType" aria-expanded="false" aria-controls="productType">
-                                        Product Type
-                                    </button>
-                                </h2>
-                                <div id="productType" className="accordion-collapse collapse" aria-labelledby="productType" data-bs-parent="#filters">
-                                    <div className="accordion-body">
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="clothing" />
-                                            <label className="form-check-label" htmlFor="clothing">
-                                                Clothing
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="Blankets" />
-                                            <label className="form-check-label" htmlFor="Blankets">
-                                                Blankets
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="Bags" />
-                                            <label className="form-check-label" htmlFor="Bags">
-                                                Bags
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="Accessories" />
-                                            <label className="form-check-label" htmlFor="Accessories">
-                                                Accessories
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="homeDecor" />
-                                            <label className="form-check-label" htmlFor="homeDecor">
-                                                Home Decor
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="stuffedAnimals" />
-                                            <label className="form-check-label" htmlFor="stuffedAnimals">
-                                                Stuffed Animals
-                                            </label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* Accordian with checkboxes for pattern difficulty */}
-                            <div className="accordion-item">
-                                <h2 className="accordion-header">
-                                    <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#patternDifficulty" aria-expanded="false" aria-controls="patternDifficulty">
-                                        Difficulty
-                                    </button>
-                                </h2>
-                                <div id="patternDifficulty" className="accordion-collapse collapse" aria-labelledby="patternDifficulty" data-bs-parent="#filters">
-                                    <div className="accordion-body">
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="Beginner" />
-                                            <label className="form-check-label" htmlFor="Beginner">
-                                                Beginner
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="Easy" />
-                                            <label className="form-check-label" htmlFor="Easy">
-                                                Easy
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="Intermediate" />
-                                            <label className="form-check-label" htmlFor="Intermediate">
-                                                Intermediate
-                                            </label>
-                                        </div>
-                                        <div className="form-check">
-                                            <input className="form-check-input" type="checkbox" value="" id="Advanced" />
-                                            <label className="form-check-label" htmlFor="Advanced">
-                                                Advanced
                                             </label>
                                         </div>
                                     </div>
@@ -166,8 +133,10 @@ const Patterns = () => {
                     </div>
                 </div>
                 {/* button to apply filters */}
-                <SetFilterBttn />
-            </div>
+                <button type="submit" className="btn btn-primary m-3 classicButton" data-bs-dismiss="offcanvas">
+                    Apply Filters
+                </button>
+            </form>
         </MainLayout >
     );
 };
