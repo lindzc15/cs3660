@@ -12,7 +12,7 @@ const RavelryAPIPatterns = ({ appliedFilters, filtering }) => {
         const fetchPatterns = async () => {
             try {
                 console.log(filtering);
-                const response = await fetch("http://127.0.0.1:8080/api/ravelry/patterns", {
+                const response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/patterns", {
                     method: "GET",
                 })
                 if (!response.ok) throw new Error("Failed to fetch patterns");

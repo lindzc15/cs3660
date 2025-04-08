@@ -13,7 +13,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
         //start with fetching all yarns
         const fetchYarns = async () => {
             try {
-                const response = await fetch("http://127.0.0.1:8080/api/ravelry/yarns", {
+                const response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/yarns", {
                     method: "GET",
                 })
                 //fetch detailed object for all yarns, searched for by id
@@ -23,7 +23,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
                 // const yarnIDs = data.yarns.map(yarn => yarn.id);
                 const yarnDetails = await Promise.all(
                     data.yarnIDs.map(async (id) => {
-                        const yarnDetailsResponse = await fetch(`http://127.0.0.1:8080/api/ravelry/yarn/details`, {
+                        const yarnDetailsResponse = await fetch(`https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/yarn/details`, {
                             method: "POST",
                             headers: {
                                 "Content-Type": "application/json",
