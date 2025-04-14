@@ -16,7 +16,7 @@ function CreateAccount() {
         e.preventDefault();
         try {
             // POST request to backend to attempt login
-            const response = await fetch("http://127.0.0.1:8080/api/login/register", {
+            const response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/login/register", {
                 method: "POST",
 
                 // send user and pass for verification
