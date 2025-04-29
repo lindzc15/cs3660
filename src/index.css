@@ -113,3 +113,7 @@ li,
 a {
   color: var(--secondary-txt) !important;
 }
+
+.cursor {
+  cursor: default !important;
+}

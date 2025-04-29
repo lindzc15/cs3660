@@ -3,19 +3,36 @@ const username = "read-30374bdbb4186ef30d28bc0f14b4e697";
 const password = "1qg8ZJMG6aCJL5mf64gfV6X7kKEzvSu3L+Dvc47t";
 
 
-const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
+const RavelryAPIYarns = ({ appliedWeightFilters, filtering, searching, query, searchToggle }) => {
     const [yarns, setYarns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    console.log("searching?", searching);
     //fetch yarn data from api on mount
     useEffect(() => {
         //start with fetching all yarns
         const fetchYarns = async () => {
+            setLoading(true);
             try {
-                const response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/yarns", {
-                    method: "GET",
-                })
+                let response;
+                if (searching) {
+                    response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/yarns/search", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            query: query
+                        }),
+
+                        // Adding headers to the request
+                        headers: {
+                            "Content-type": "application/json; charset=UTF-8"
+                        }
+                    })
+                }
+                else {
+                    response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/yarns", {
+                        method: "GET",
+                    })
+                }
                 //fetch detailed object for all yarns, searched for by id
                 if (!response.ok) throw new Error("Failed to fetch yarns");
                 const data = await response.json();
@@ -47,7 +64,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
         }
 
         fetchYarns();
-    }, []);
+    }, [searchToggle, searching]);
 
 
 
@@ -77,12 +94,13 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering }) => {
         //add each checked filter to the list of applied filters
         Object.entries(appliedWeightFilters).forEach(([key, value]) => {
             if (value == true) {
+                console.log(key, typeof (key), typeof (value), value);
                 appliedWeightFiltersArr.push(key.toLocaleLowerCase());
             }
         });
         //if the weight of the yarn matches a weight filter set in the array, keep, otherwise delete
         Object.entries(yarnsDeepCopy).forEach(([key, value]) => {
-            if (!appliedWeightFiltersArr.includes(value.yarn_weight.name.toLocaleLowerCase())) {
+            if (value.yarn_weight && value.yarn_weight.name && !appliedWeightFiltersArr.includes(value.yarn_weight.name.toLocaleLowerCase())) {
                 delete yarnsDeepCopy[key];
             }
         })

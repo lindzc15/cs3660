@@ -3,18 +3,79 @@ const username = "read-30374bdbb4186ef30d28bc0f14b4e697";
 const password = "1qg8ZJMG6aCJL5mf64gfV6X7kKEzvSu3L+Dvc47t";
 
 
-const RavelryAPIPatterns = ({ appliedFilters, filtering }) => {
+const RavelryAPIPatterns = ({ appliedFilters, filtering, searching, query, searchToggle }) => {
     const [patterns, setPatterns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchPatterns = async () => {
+            setLoading(true);
             try {
+                let response;
                 console.log(filtering);
-                const response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/patterns", {
-                    method: "GET",
-                })
+                if (searching) {
+                    console.log("searching!");
+                    response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/patterns/search", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            query: query
+                        }),
+
+                        // Adding headers to the request
+                        headers: {
+                            "Content-type": "application/json; charset=UTF-8"
+                        }
+                    })
+                }
+                else if (filtering) {
+                    //make sure only knit or crochet checked
+
+                    //check if knit and not crochet checked
+                    if (appliedFilters.knit === true && appliedFilters.crochet === false) {
+                        console.log("searching knit!");
+                        response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/patterns/search", {
+                            method: "POST",
+                            body: JSON.stringify({
+                                query: "knit"
+                            }),
+
+                            // Adding headers to the request
+                            headers: {
+                                "Content-type": "application/json; charset=UTF-8"
+                            }
+                        })
+                    }
+                    //check if crochet and not knit checked
+                    else if (appliedFilters.crochet === true && appliedFilters.knit === false) {
+                        console.log("searching crochet!");
+                        response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/patterns/search", {
+                            method: "POST",
+                            body: JSON.stringify({
+                                query: "crochet"
+                            }),
+
+                            // Adding headers to the request
+                            headers: {
+                                "Content-type": "application/json; charset=UTF-8"
+                            }
+                        })
+                    }
+                    //selected both, just get all patterns
+                    else {
+                        console.log("selected both filters!");
+                        response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/patterns", {
+                            method: "GET",
+                        })
+                    }
+
+                }
+                else {
+                    console.log("no filter, regular!");
+                    response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/patterns", {
+                        method: "GET",
+                    })
+                }
                 if (!response.ok) throw new Error("Failed to fetch patterns");
                 const data = await response.json();
                 console.log(data);
@@ -29,7 +90,7 @@ const RavelryAPIPatterns = ({ appliedFilters, filtering }) => {
         }
 
         fetchPatterns();
-    }, [filtering, appliedFilters]);
+    }, [filtering, appliedFilters, searching, searchToggle]);
 
     if (loading) {
         return (
@@ -42,6 +103,12 @@ const RavelryAPIPatterns = ({ appliedFilters, filtering }) => {
         )
     }
 
+    if (filtering) {
+        console.log("filtering!");
+        console.log(appliedFilters);
+
+    }
+
     if (error) {
         return <div className="alert alert-danger">Error: {error}</div>;
     }
@@ -50,11 +117,10 @@ const RavelryAPIPatterns = ({ appliedFilters, filtering }) => {
 
 
     return (
-        //maybe display ratings with star icons; out of 5 rating given by yarn.rating_average
         <div className="row ms-auto me-auto">
             {patterns.map((pattern) => (
                 <div className="col-md-4 col-lg-3 d-flex justify-content-center" key={pattern.id}>
-                    <div className="card m-3 flex-grow-1" onClick={() => window.open(`${pattern.pattern_sources[1].url}`, "_blank")} style={{ cursor: "pointer" }}>
+                    <div className="card m-3 flex-grow-1 cursor" onClick={() => window.open(`${pattern.pattern_sources[1].url}`, "_blank")} style={{ cursor: "pointer" }}>
                         <div className="card-img-wrapper" style={{ height: '60%' }}>
                             {pattern.first_photo ? (
                                 <img

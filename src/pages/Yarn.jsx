@@ -23,6 +23,9 @@ const Yarn = () => {
 
     //tracks whether user is trying to filter
     const [filtering, setFiltering] = useState(false);
+    const [searching, setSearching] = useState(false);
+    const [query, setQuery] = useState("");
+    const [searchToggle, setSearchToggle] = useState(false);
     const [appliedWeightFilters, setAppliedWeightFilters] = useState({});
 
     //tracks whether filters applied alert is showing
@@ -56,6 +59,18 @@ const Yarn = () => {
         setFiltering(false);
     }
 
+    const cancelSearch = (e) => {
+        e.preventDefault();
+        setSearching(false);
+        setQuery("");
+    }
+
+    const search = (e) => {
+        e.preventDefault();
+        setSearching(true);
+        setSearchToggle(prev => !prev);
+    };
+
 
     return (
         <MainLayout title="Yarn">
@@ -63,21 +78,27 @@ const Yarn = () => {
             <div className="container-fluid searchPage">
                 <div className="row">
                     <div className="col-2 m-3">
-
                     </div>
                     <div className="col-8 m-3">
-                        <form className="form-inline">
-                            <input className="form-control" type="search" placeholder="Search" aria-label="Search" />
-                            <button className="btn btn-outline-success classicButton m-3" onClick={cancelFilters}>
-                                <i className="fa-solid fa-xmark"></i>  Remove Filters</button>
-                            <button className="btn btn-primary classicButton"
-                                type="button"
-                                data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasFilters"
-                                aria-controls="yarn-filters">
-                                <i className="fa-solid fa-plus"></i> Add filters
-                            </button>
-                            <button className="btn btn-outline-success classicButton m-3" type="submit">Search</button>
+                        <form>
+                            <div className="d-flex align-items-center mb-2 gap-2">
+                                <input className="form-control flex-grow-1" placeholder="Search" aria-label="Search" onChange={(e) => setQuery(e.target.value)} value={query} />
+                                <button className="btn btn-outline-success classicButton" onClick={cancelSearch}>X</button>
+                            </div>
+
+                            <div className="d-flex justify-content-end gap-2">
+                                <button className="btn btn-outline-success classicButton" onClick={cancelFilters}>
+                                    <i className="fa-solid fa-xmark"></i> Remove Filters
+                                </button>
+                                <button className="btn btn-primary classicButton"
+                                    type="button"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#offcanvasFilters"
+                                    aria-controls="pattern-filters">
+                                    <i className="fa-solid fa-plus"></i> Add filters
+                                </button>
+                                <button className="btn btn-outline-success classicButton" onClick={search}>Search</button>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -94,7 +115,7 @@ const Yarn = () => {
 
             {/* container for displaying the yarns */}
             <div className="container-fluid">
-                <RavelryAPIYarns appliedWeightFilters={appliedWeightFilters} filtering={filtering} />
+                <RavelryAPIYarns appliedWeightFilters={appliedWeightFilters} filtering={filtering} searching={searching} query={query} searchToggle={searchToggle} />
             </div>
 
 
