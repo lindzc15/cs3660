@@ -10,6 +10,7 @@ import VideoTutorial from './pages/VideoTutorial';
 import Profile from "./pages/Profile"
 import AuthRoute from './AuthRoute';
 import CreateAccount from './pages/CreateAccount';
+import EditAccount from './pages/EditAccount';
 
 
 function App() {
@@ -26,6 +27,9 @@ function App() {
           <Route path="/videotutorial" element={<VideoTutorial />} />
           <Route element={<AuthRoute />}>
             <Route path="/profile" element={<Profile />}></Route>
+          </Route>
+          <Route element={<AuthRoute />}>
+            <Route path="/profile/edit" element={<EditAccount />}></Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,9 +1,52 @@
 import { createContext, useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
 
-export const AuthContext = createContext(null);
+
+const AuthContext = createContext(null);
+
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [token, setToken] = useState(null);
+    const [username, setUsername] = useState(null);
+    const [currName, setCurrName] = useState(null);
+
+    function getUsernameFromToken(token) {
+        try {
+            const decoded = jwtDecode(token);
+            return decoded.user?.username || decoded.sub || null;
+        } catch (err) {
+            console.error("Invalid token:", err);
+            return null;
+        }
+    }
+
+    function getNameFromToken(token) {
+        try {
+            const decoded = jwtDecode(token);
+            return decoded.user?.name || null;
+        } catch (err) {
+            console.error("Invalid token:", err);
+            return null;
+        }
+    }
+
+    useEffect(() => {
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                setUsername(decoded.user?.username || decoded.sub || "");
+                setCurrName(decoded.user?.name || "");
+                setIsLoggedIn(true);
+            } catch (err) {
+                console.error("Invalid token:", err);
+                setIsLoggedIn(false);
+            }
+        } else {
+            setUsername("");
+            setCurrName("");
+            setIsLoggedIn(false);
+        }
+    }, [token]);
 
     //will run only on mount, when application loads
     useEffect(() => {
@@ -32,6 +75,10 @@ export const AuthProvider = ({ children }) => {
                     const loginStatus = await response.json();
                     setIsLoggedIn(true);
                     setToken(loginStatus.jwt_token);
+                    const username = getUsernameFromToken(token);
+                    setUsername(username);
+                    const currName = getNameFromToken(token);
+                    setCurrName(currName);
                 }
 
             }
@@ -101,8 +148,11 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, token, login, logout }}>
+        <AuthContext.Provider value={{ isLoggedIn, token, login, logout, username, currName, setCurrName, setUsername, setToken }}>
             {children}
         </AuthContext.Provider>
     )
 }
+
+export default AuthProvider;
+export { AuthContext };

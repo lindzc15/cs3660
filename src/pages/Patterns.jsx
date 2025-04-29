@@ -4,6 +4,7 @@ import { useState, useContext, useEffect } from "react";
 import RavelryAPIPatterns from "../pages/ravelryAPI/ravelryAPIPatterns";
 
 
+
 const Patterns = () => {
     //tracks state of checked filter checkboxes
     const [selectedFilters, setSelectedFilters] = useState({
