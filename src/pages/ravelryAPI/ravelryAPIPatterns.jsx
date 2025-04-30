@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
-const username = "read-30374bdbb4186ef30d28bc0f14b4e697";
-const password = "1qg8ZJMG6aCJL5mf64gfV6X7kKEzvSu3L+Dvc47t";
-
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const RavelryAPIPatterns = ({ appliedFilters, filtering, searching, query, searchToggle }) => {
     const [patterns, setPatterns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const { username, isLoggedIn } = useContext(AuthContext);
+    const [showAlert, setShowAlert] = useState(false);
+    const [alert, setAlert] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPatterns = async () => {
             setLoading(true);
+            setError(null);
             try {
                 let response;
                 console.log(filtering);
@@ -82,7 +86,7 @@ const RavelryAPIPatterns = ({ appliedFilters, filtering, searching, query, searc
                 setPatterns(data.patterns);
             }
             catch (err) {
-                setError(err.message);
+                setError("No patterns found");
             }
             finally {
                 setLoading(false);
@@ -110,9 +114,46 @@ const RavelryAPIPatterns = ({ appliedFilters, filtering, searching, query, searc
     }
 
     if (error) {
-        return <div className="alert alert-danger">Error: {error}</div>;
+        return <div className="alert alert-danger">{error}</div>;
     }
 
+    const favorite = async (e) => {
+        e.stopPropagation();
+        if (isLoggedIn) {
+            try {
+                let response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/favorites/pattern", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ "username": username, "id": e.target.value })
+                })
+                console.log("response", response);
+                if (!response.ok) {
+                    setAlert("Error adding to favorites");
+                    setShowAlert(true);
+                    setTimeout(() => {
+                        setShowAlert(false);
+                    }, 1500);
+                }
+                setAlert("Added to favorites");
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 1500);
+            }
+            catch (error) {
+                setAlert("Error adding to favorites");
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 1500);
+            }
+        }
+        else {
+            navigate("/login");
+        }
+    }
 
 
 
@@ -120,7 +161,7 @@ const RavelryAPIPatterns = ({ appliedFilters, filtering, searching, query, searc
         <div className="row ms-auto me-auto">
             {patterns.map((pattern) => (
                 <div className="col-md-4 col-lg-3 d-flex justify-content-center" key={pattern.id}>
-                    <div className="card m-3 flex-grow-1 cursor" onClick={() => window.open(`${pattern.pattern_sources[1].url}`, "_blank")} style={{ cursor: "pointer" }}>
+                    <div className="card m-3 flex-grow-1 cursor">
                         <div className="card-img-wrapper" style={{ height: '60%' }}>
                             {pattern.first_photo ? (
                                 <img
@@ -142,10 +183,18 @@ const RavelryAPIPatterns = ({ appliedFilters, filtering, searching, query, searc
                             <p className="card-text"><small className="text-body-secondary">{`${pattern.designer.name}`}</small></p>
                             {pattern.free && <div className="card-text">*Free Pattern*</div>}
                             {!pattern.free && <div className="card-text">*Pattern must be purchased*</div>}
+
                         </div>
+                        <button className="btn btn-outline-success classicButton fav" value={pattern.id} onClick={(e) => favorite(e)}><i className="fa-solid fa-heart"></i>   Favorite</button>
                     </div>
                 </div>
             ))}
+            {/* shows filter applied alert when button is pressed */}
+            {showAlert && (
+                <div className="alert custom-alert position-fixed bottom-0 start-50 translate-middle-x" role="alert">
+                    {alert}
+                </div>
+            )}
         </div>
     )
 }

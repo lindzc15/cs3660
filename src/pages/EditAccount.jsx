@@ -60,13 +60,10 @@ function EditAccount() {
                     navigate("/profile");
                 }, 1500);
                 const decoded = jwtDecode(updateSuccess.jwt_token);
-                console.log("token", updateSuccess.jwt_token);
                 setToken(updateSuccess.jwt_token);
                 const user = decoded.user;
                 setUsername(user.username);
                 setCurrName(user.name);
-                console.log("user", username);
-                console.log("name", currName);
                 localStorage.setItem("token", JSON.stringify(updateSuccess.jwt_token));
             }
         }
@@ -77,14 +74,27 @@ function EditAccount() {
     }
     return (
         <MainLayout title="Edit Account | Loops & Knots">
-            <button type="button" className="btn btn-primary classicButton backButton m-3" onClick={() => navigate("/profile")}>{"<  "}Back</button>
+            <button
+                type="button"
+                className="btn btn-primary classicButton backButton m-3"
+                onClick={() => navigate("/profile")}
+                style={{ minWidth: "120px" }}
+            >
+                {"<  "}Back
+            </button>
             <div className="container d-flex flex-column flex-grow-1 justify-content-center">
-                <div className="row ms-auto me-auto w-25 mt-4 mb-4">
+                <div className="row mx-auto mt-4 mb-4" style={{ maxWidth: '400px', width: '100%' }}>
                     <div className="text-center">
+                        {/* shows account created alert when successful creation */}
+                        {showAlert && (
+                            <div className="alert custom-alert" role="alert">
+                                Account changes saved!
+                            </div>
+                        )}
                         <h3 className="text-center mb-4">Edit Account</h3>
                         {error && <div className="alert alert-danger">{error}</div>}
                         <form onSubmit={handleSubmit}>
-                            <div className="col-md-12 col-lg-12 mb-3 form-floating">
+                            <div className="col-12 mb-3 form-floating">
                                 <input
                                     className="form-control"
                                     id="floatingName"
@@ -94,31 +104,26 @@ function EditAccount() {
                                 />
                                 <label className="form-label" htmlFor="floatingName">Name</label>
                             </div>
-                            <div className="col-md-12 col-lg-12 mb-3 form-floating">
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    id="floatingEmail"
-                                    placeholder=""
-                                    value={username}
-                                    onChange={(e) => setUsername(e.target.value)}
-                                />
-                                <label className="form-label" htmlFor="floatingEmail">Email Address</label>
-                            </div>
+                            {/* <div className="col-12 mb-3 form-floating">
+                        <input
+                            type="email"
+                            className="form-control"
+                            id="floatingEmail"
+                            placeholder=""
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                        />
+                        <label className="form-label" htmlFor="floatingEmail">Email Address</label>
+                    </div> */}
                             <button type="submit" className="btn btn-primary mt-3 classicButton">
                                 Save Changes
                             </button>
                         </form>
-                        {/* shows account created alert when successful creation*/}
-                        {showAlert && (
-                            <div className="alert custom-alert" role="alert">
-                                Account changes saved!
-                            </div>
-                        )}
                     </div>
                 </div>
             </div>
         </MainLayout>
+
     )
 }
 

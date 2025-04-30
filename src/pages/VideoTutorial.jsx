@@ -12,8 +12,16 @@ const VideoTutorial = () => {
         return <p>Tutorial not found</p>;
     }
     return (
-        <MainLayout title="Tutorial Video">
-            <button type="button" class="btn btn-primary classicButton backButton m-3" onClick={() => navigate("/Tutorials")}>{"<  "}Back</button>
+        <MainLayout title="Tutorial Video | Loops & Knots">
+            <button
+                type="button"
+                className="btn btn-primary classicButton backButton m-3"
+                onClick={() => navigate("/Tutorials")}
+                style={{ minWidth: "120px" }}
+            >
+                {"<  "}Back
+            </button>
+
             <div className="container text-center d-flex flex-column flex-grow-1 justify-content-center align-items-center">
                 {/* Video iframe with width and height controlled */}
                 <iframe

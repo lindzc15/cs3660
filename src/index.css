@@ -10,6 +10,7 @@ body {
   color: black;
   background-color: var(--gen-background);
   font-family: 'Nunito', sans-serif;
+  overflow-x: hidden;
 }
 
 :root {
@@ -60,6 +61,10 @@ h5 {
   color: var(--header-text);
 }
 
+h2 {
+  font-size: 3em;
+}
+
 .searchPage {
   text-align: right;
 }
@@ -74,6 +79,7 @@ h5 {
 .list-group {
   text-align: left;
 }
+
 
 .backButton {
   width: 8%;
@@ -107,6 +113,7 @@ h5 {
   color: var(--button-txt) !important;
   opacity: 0.9;
   margin-top: 1em;
+  width: auto;
 }
 
 li,
@@ -116,4 +123,27 @@ a {
 
 .cursor {
   cursor: default !important;
+}
+
+.fav {
+  width: 75%;
+  margin-bottom: 4%;
+  align-self: center;
+}
+
+.fa-solid {
+  margin-right: 3%;
+}
+
+.spinner {
+  margin-top: 3%;
+}
+
+.created {
+  width: 100%;
+  text-align: center;
+}
+
+.alert {
+  text-align: center;
 }

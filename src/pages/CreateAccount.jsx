@@ -55,19 +55,22 @@ function CreateAccount() {
                     navigate("/login");
                 }, 1500);
             }
+            else {
+                throw new Error("Username already taken")
+            }
         }
         catch (error) {
             console.log("in the catch", error);
-            setError("Error creating account");
+            setError(error.message);
         }
     }
     return (
         <MainLayout title="Login | Loops & Knots">
             <div className="container d-flex flex-column flex-grow-1 justify-content-center">
-                <div className="row ms-auto me-auto w-25 mt-4 mb-4">
-                    {/* shows account created alert when successful creation*/}
+                <div className="row mx-auto mt-4 mb-4" style={{ maxWidth: '400px', width: '100%' }}>
+                    {/* shows account created alert when successful creation */}
                     {showAlert && (
-                        <div className="alert custom-alert" role="alert">
+                        <div className="alert custom-alert created" role="alert">
                             Account Created!
                         </div>
                     )}
@@ -76,7 +79,7 @@ function CreateAccount() {
                     <div className="text-center">
                         <h3 className="text-center mb-4">Create Account</h3>
                         <form onSubmit={handleSubmit}>
-                            <div className="col-md-12 col-lg-12 mb-3 form-floating">
+                            <div className="col-12 mb-3 form-floating">
                                 <input
                                     className="form-control"
                                     id="floatingName"
@@ -86,7 +89,7 @@ function CreateAccount() {
                                 />
                                 <label className="form-label" htmlFor="floatingName">Name</label>
                             </div>
-                            <div className="col-md-12 col-lg-12 mb-3 form-floating">
+                            <div className="col-12 mb-3 form-floating">
                                 <input
                                     type="email"
                                     className="form-control"
@@ -97,7 +100,7 @@ function CreateAccount() {
                                 />
                                 <label className="form-label" htmlFor="floatingEmail">Email Address</label>
                             </div>
-                            <div className="col-md-12 col-lg-12 mb-3 form-floating">
+                            <div className="col-12 mb-3 form-floating">
                                 <input
                                     type="password"
                                     className="form-control"
@@ -116,6 +119,7 @@ function CreateAccount() {
                 </div>
             </div>
         </MainLayout>
+
     )
 }
 

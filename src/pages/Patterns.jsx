@@ -65,7 +65,7 @@ const Patterns = () => {
     };
 
     return (
-        <MainLayout title="Patterns">
+        <MainLayout title="Patterns | Loops & Knots">
             {/* holds the search bar and apply filters button */}
             <div className="container-fluid searchPage">
                 <div className="row">
@@ -73,25 +73,61 @@ const Patterns = () => {
                     </div>
                     <div className="col-8 m-3">
                         <form>
-                            <div className="d-flex align-items-center mb-2 gap-2">
-                                <input className="form-control flex-grow-1" placeholder="Search" aria-label="Search" onChange={(e) => setQuery(e.target.value)} value={query} />
-                                <button className="btn btn-outline-success classicButton" onClick={cancelSearch}>X</button>
+                            <div className="d-flex flex-row align-items-stretch mb-3 gap-2">
+                                <input
+                                    className="form-control"
+                                    placeholder="Search"
+                                    aria-label="Search"
+                                    onChange={(e) => setQuery(e.target.value)}
+                                    value={query}
+                                />
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-success classicButton x-btn"
+                                    onClick={cancelSearch}
+                                    style={{
+                                        width: "48px",
+                                        minWidth: "48px",
+                                        padding: "0",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                    }}
+                                >
+                                    X
+                                </button>
                             </div>
 
-                            <div className="d-flex justify-content-end gap-2">
-                                <button className="btn btn-outline-success classicButton" onClick={cancelFilters}>
+                            <div className="d-flex flex-column flex-md-row justify-content-md-end gap-2">
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-success classicButton"
+                                    onClick={cancelFilters}
+                                    style={{ width: "100%", maxWidth: "180px" }}
+                                >
                                     <i className="fa-solid fa-xmark"></i> Remove Filters
                                 </button>
-                                <button className="btn btn-primary classicButton"
+                                <button
                                     type="button"
+                                    className="btn btn-primary classicButton"
                                     data-bs-toggle="offcanvas"
                                     data-bs-target="#offcanvasFilters"
-                                    aria-controls="pattern-filters">
+                                    aria-controls="pattern-filters"
+                                    style={{ width: "100%", maxWidth: "160px" }}
+                                >
                                     <i className="fa-solid fa-plus"></i> Add filters
                                 </button>
-                                <button className="btn btn-outline-success classicButton" onClick={search}>Search</button>
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-success classicButton"
+                                    onClick={search}
+                                    style={{ width: "100%", maxWidth: "160px" }}
+                                >
+                                    Search
+                                </button>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>

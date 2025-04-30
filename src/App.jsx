@@ -11,6 +11,8 @@ import Profile from "./pages/Profile"
 import AuthRoute from './AuthRoute';
 import CreateAccount from './pages/CreateAccount';
 import EditAccount from './pages/EditAccount';
+import FavoritePatterns from './pages/FavoritePatterns';
+import FavoriteYarns from './pages/FavoriteYarns';
 
 
 function App() {
@@ -30,6 +32,12 @@ function App() {
           </Route>
           <Route element={<AuthRoute />}>
             <Route path="/profile/edit" element={<EditAccount />}></Route>
+          </Route>
+          <Route element={<AuthRoute />}>
+            <Route path="/profile/favoriteyarn" element={<FavoriteYarns />}></Route>
+          </Route>
+          <Route element={<AuthRoute />}>
+            <Route path="/profile/favoritepattern" element={<FavoritePatterns />}></Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

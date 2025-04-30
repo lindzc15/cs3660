@@ -38,13 +38,13 @@ function Login() {
     return (
         <MainLayout title="Login | Loops & Knots">
             <div className="container d-flex flex-column flex-grow-1 justify-content-center">
-                <div className="row ms-auto me-auto w-25 mt-4 mb-4">
+                <div className="row mx-auto mt-4 mb-4" style={{ maxWidth: '400px', width: '100%' }}>
                     <div className="text-center">
                         <h3 className="text-center mb-4">Login</h3>
                         {/* if error true, shows code on right side */}
                         {error && <div className="alert alert-danger">{error}</div>}
                         <form onSubmit={handleSubmit}>
-                            <div className="col-md-12 col-lg-12 mb-3 form-floating">
+                            <div className="col-sm-2 col-md-12 col-lg-12 mb-3 form-floating">
                                 <input
                                     type="email"
                                     className="form-control"
@@ -55,7 +55,7 @@ function Login() {
                                 />
                                 <label className="form-label" htmlFor="floatingEmail">Email Address</label>
                             </div>
-                            <div className="col-md-12 col-lg-12 mb-3 form-floating">
+                            <div className="col-sm-2 col-md-12 col-lg-12 mb-3 form-floating">
                                 <input
                                     type="password"
                                     className="form-control"

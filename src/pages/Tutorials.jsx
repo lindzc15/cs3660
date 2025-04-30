@@ -28,7 +28,7 @@ const Tutorials = () => {
         fetchTutorials();
     }, []);
     return (
-        <MainLayout title="Tutorials">
+        <MainLayout title="Tutorials | Loops & Knots">
             {/* container for displaying the tutorials posted */}
             <div className="row ms-auto me-auto">
                 {tutorials.map((tutorial) => (

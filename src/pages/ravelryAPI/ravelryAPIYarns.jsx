@@ -1,17 +1,21 @@
-import { useEffect, useState } from "react";
-const username = "read-30374bdbb4186ef30d28bc0f14b4e697";
-const password = "1qg8ZJMG6aCJL5mf64gfV6X7kKEzvSu3L+Dvc47t";
+import { useEffect, useState, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 
 const RavelryAPIYarns = ({ appliedWeightFilters, filtering, searching, query, searchToggle }) => {
     const [yarns, setYarns] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    console.log("searching?", searching);
+    const { username, isLoggedIn } = useContext(AuthContext);
+    const [showAlert, setShowAlert] = useState(false);
+    const [alert, setAlert] = useState("");
+    const navigate = useNavigate();
     //fetch yarn data from api on mount
     useEffect(() => {
         //start with fetching all yarns
         const fetchYarns = async () => {
+            setError(null);
             setLoading(true);
             try {
                 let response;
@@ -37,7 +41,6 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering, searching, query, se
                 if (!response.ok) throw new Error("Failed to fetch yarns");
                 const data = await response.json();
                 console.log("data", data);
-                // const yarnIDs = data.yarns.map(yarn => yarn.id);
                 const yarnDetails = await Promise.all(
                     data.yarnIDs.map(async (id) => {
                         const yarnDetailsResponse = await fetch(`https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/ravelry/yarn/details`, {
@@ -56,7 +59,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering, searching, query, se
                 console.log("details", yarnDetails);
             }
             catch (err) {
-                setError(err.message);
+                setError("No yarns found");
             }
             finally {
                 setLoading(false);
@@ -80,7 +83,7 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering, searching, query, se
     }
 
     if (error) {
-        return <div className="alert alert-danger">Error: {error}</div>;
+        return <div className="alert alert-danger">{error}</div>;
     }
 
     //tracks yarns currently in use
@@ -120,6 +123,43 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering, searching, query, se
 
     console.log(yarns);
 
+    const favorite = async (e) => {
+        e.stopPropagation();
+        if (isLoggedIn) {
+            try {
+                let response = await fetch("https://udg0v8fa9j.execute-api.us-west-2.amazonaws.com/cs3660prod/api/favorites/yarn", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ "username": username, "id": e.target.value })
+                })
+                console.log("response", response);
+                if (!response.ok) {
+                    setAlert("Error adding to favorites");
+                    setShowAlert(true);
+                    setTimeout(() => {
+                        setShowAlert(false);
+                    }, 1500);
+                }
+                setAlert("Added to favorites");
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 1500);
+            }
+            catch (error) {
+                setAlert("Error adding to favorites");
+                setShowAlert(true);
+                setTimeout(() => {
+                    setShowAlert(false);
+                }, 1500);
+            }
+        }
+        else {
+            navigate("/login");
+        }
+    }
 
     return (
         //card to display details of each yarn
@@ -152,9 +192,16 @@ const RavelryAPIYarns = ({ appliedWeightFilters, filtering, searching, query, se
                                 <p className="card-text" key={aFiber.id}>{`${aFiber.percentage}% ${aFiber.fiber_type?.name || "Unknown fiber type"}`}</p>
                             ))}
                         </div>
+                        <button className="btn btn-outline-success classicButton fav" value={yarn.id} onClick={(e) => favorite(e)}><i className="fa-solid fa-heart"></i>   Favorite</button>
                     </div>
                 </div>
             ))}
+            {/* shows filter applied alert when button is pressed */}
+            {showAlert && (
+                <div className="alert custom-alert position-fixed bottom-0 start-50 translate-middle-x" role="alert">
+                    {alert}
+                </div>
+            )}
         </div>
     )
 }
